@@ -16,7 +16,7 @@ classdef UR5e_object < handle
         s2        %机器人网络端口2，用于输入运动命令，TCP配置参数等 
         s3        %机器人网络端口3，用于读取传感器标定参数
         pose      %当前机器人姿态
-%         calib     %标定参数
+        q         %当前机器人关节角度
         force     %最新读取到的工具端受力
         active_tcp   %当前活动的tcp配置
         freedrive_status %自由拖动状态
@@ -49,23 +49,17 @@ classdef UR5e_object < handle
         
         freedrive_on(obj); %自由拖动
         
-%         freedrive_on_temp(obj); %自由拖动
-        
         freedrive_off(obj); %关闭自由拖动
         
-%         freedrive_off_temp(obj); %关闭自由拖动
+        [pose,q,force] = refresh_status(obj);  %更新UR位置、关节角以及力
         
-%         calib = get_calibration(obj);  %读取标定参数
-        
-        pose = refresh_pose(obj);  %更新UR位置信息
-        
-        force = refresh_force(obj); %更新工具端力传感器读数
-        
-        freedrive_status = refresh_freedrive_status(obj); %同时更新各种参数
+        freedrive_status = refresh_freedrive_status(obj); %更新自由拖动参数
 
         cmd = move_tcp(obj,offset,path_type) %相对于工具坐标系进行移动
 
         cmd = set_pose(obj,tgt_pose,path_type,axis_no_rotate); %移动到基坐标系中的指定位置（笛卡尔空间或者关节空间插值）
+        
+        cmd = set_joint(obj,tgt_q); %移动到指定的关节角度
         
         cmd = set_speed(obj,varargin); %按在基坐标系中给定的速度运动
         
@@ -85,11 +79,15 @@ classdef UR5e_object < handle
    
     methods  % set和get相关
         function pose = get.pose(obj)   %当查询pose属性时,运行坐标刷新函数读取新的status
-           pose = obj.refresh_pose;
+           [pose,~,~] = obj.refresh_status;
+        end
+        
+        function q = get.q(obj)   %当查询q属性时,运行坐标刷新函数读取新的status
+           [~,q,~] = obj.refresh_status;
         end
         
         function force = get.force(obj)   %当查询force属性时,运行坐标刷新函数读取新的status
-           force = obj.refresh_force;
+           [~,~,force] = obj.refresh_status;
         end
 
         function freedrive_status = get.freedrive_status(obj)   %当查询force属性时,运行坐标刷新函数读取新的status
