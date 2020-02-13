@@ -13,6 +13,7 @@ obj.s2 = tcpip(obj.ip_UR,rport2);
 obj.s2.ReadAsyncMode = 'manual';
 obj.s2.Timeout = 0.0001;
 obj.s2.InputBufferSize = 1116;
+obj.s2.OutputBufferSize = 1024;
 
 obj.s3 = tcpip(obj.ip_UR,rport3);
 obj.s3.ReadAsyncMode = 'manual';
