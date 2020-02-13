@@ -29,6 +29,7 @@ classdef UR_object < handle
   
 %% function definations and syntaxes 
     methods   
+    
         function obj = UR_object(varargin)  %class constructor
           % If no ip adress/hostname is input, the default one is used.
           % Initialize the LAN connection
