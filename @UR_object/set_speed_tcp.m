@@ -1,7 +1,8 @@
 function cmd = set_speed_tcp(obj,varargin)
-% v: [x,y,z,rx,ry,rz],xyz单位为m/s，rx,ry,rz单位为rad/s
+% set the tcp speed in tcp coordinate frame
+% v: [x,y,z,rx,ry,rz],xyz:m/s，rx,ry,rz:rad/s
 
-if strcmp(obj.s2.status,'closed')   % 如果没打开端口，则打开之
+if strcmp(obj.s2.status,'closed')   % if s2 is not open then open it
     fopen(obj.s2);
 end
 
