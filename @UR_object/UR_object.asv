@@ -82,7 +82,7 @@ classdef UR_object < handle
 
     end
    
-    methods  % automatic set&get
+    methods  % automatic set/get
         
         % when pose,q,force and freedrive_status are queried, they are updated from robot
         function pose = get.pose(obj)    
@@ -97,23 +97,21 @@ classdef UR_object < handle
            [~,~,force] = obj.refresh_status;
         end
 
-        function freedrive_status = get.freedrive_status(obj)  
+        function freedrive_status = get.freedrive_status(obj)   %当查询force属性时,运行坐标刷新函数读取新的status
            freedrive_status = obj.refresh_freedrive_status;
         end
         
-        % when n_tcp is assigned, the correponding tcp data is upload to the robot
+        % when n_tcp is assigned
         function set.n_tcp(obj,n_tcp)      
            obj.n_tcp = n_tcp;
            set_active_tcp(obj);
         end
-        
-        % when active_tcp is queried, it will be refreshed according to current active tcp number
+
         function active_tcp = get.active_tcp(obj)
            active_tcp = obj.tcp_data(obj.n_tcp);
         end
         
-        % when tcp_data is changed, the change will be also sent to the robot
-        function set.tcp_data(obj,tcp_data) 
+        function set.tcp_data(obj,tcp_data) %每次重设tcp数据时刷新UR的tcp设置
            obj.tcp_data = tcp_data;
            set_active_tcp(obj);
         end
