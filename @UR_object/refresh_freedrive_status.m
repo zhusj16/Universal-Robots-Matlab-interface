@@ -1,8 +1,8 @@
 function freedrive_status = refresh_freedrive_status(obj)
-    %% 从30002端口读取UR机器人的各种信息
-    %% 利用readasync命令读取原始的二进制状态信息
+    %% read data from realtime interface 30001
+    %% get the raw data from the tcpip server
     
-%     if strcmp(obj.s3.status,'closed')  %如果没打开端口，则打开之
+%     if strcmp(obj.s3.status,'closed')  %if not opened, then open it
 %         fopen(obj.s3);
 %         pause(0.1);
 %     end
@@ -13,7 +13,7 @@ function freedrive_status = refresh_freedrive_status(obj)
         warning('s3 connection error, reconnecting');
         fclose(obj.s3);
         LAN_init(obj,obj.ip_UR);
-        freedrive_status = obj.freedrive_status;  %返回值之前要给pose赋值，不然不会返回给成员属性
+        freedrive_status = obj.freedrive_status;  
         return;
     end
     len = msg(3)*256+msg(4);
@@ -23,10 +23,10 @@ function freedrive_status = refresh_freedrive_status(obj)
         return;
     end
 
-    %% 从原始二进制状态信息中提取感兴趣的信息
-    ct = 5; %计数器初始化
+    %% retrieve data from the received binary package
+    ct = 5; %counter initialization
     while(ct<len)
-        pkg_len = msg(ct+3)*256+msg(ct+4); %数据包长度
+        pkg_len = msg(ct+3)*256+msg(ct+4); %length of the package
         pkg_type = msg(ct+5);
         if (pkg_type == 0)
             freedrive_status = msg(ct+22);
