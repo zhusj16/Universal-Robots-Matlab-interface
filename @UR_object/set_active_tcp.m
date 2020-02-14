@@ -20,12 +20,12 @@ end
 % 设置负载质量和重心位置
 cmd1 = sprintf('set_payload(%f,[%f,%f,%f])\n',tcp_data.mass,tcp_data.CoG);
 fprintf(obj.s2,cmd1);
-pause(0.1);
+pause(0.02);
 
 % 设置工具坐标系位置
 cmd2 = sprintf('set_tcp(p[%f,%f,%f,%f,%f,%f])\n',tcp_data.pose);
 fprintf(obj.s2,cmd2);
-pause(0.1);
+pause(0.02);
     
     
     

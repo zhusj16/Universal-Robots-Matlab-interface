@@ -1,5 +1,6 @@
 function LAN_init(obj,ip_UR)
 %% 初始化网口
+delete(instrfind('Type', 'tcpip')); %删除旧的网络连接,减少卡顿,降低读数错误的风险
 if nargin > 1
    obj.ip_UR = ip_UR;
 end    
@@ -20,3 +21,11 @@ obj.s3.ReadAsyncMode = 'manual';
 obj.s3.Timeout = 0.0001;
 obj.s3.InputBufferSize = 716;  %UR5e的这个包长度是716
 
+fopen(obj.s1); disp(fscanf(obj.s1));
+fopen(obj.s2);
+fopen(obj.s3);
+
+for i=1:3  %由于未知原因,30001端口头两次读数有一定概率返回错误信息，因此在初始化的时候先读几遍
+    readasync(obj.s3);
+    fread(obj.s3);
+end

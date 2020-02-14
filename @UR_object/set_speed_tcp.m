@@ -1,6 +1,6 @@
 function cmd = set_speed_tcp(obj,varargin)
 % set the tcp speed in tcp coordinate frame
-% v: [x,y,z,rx,ry,rz],xyz:m/s£¬rx,ry,rz:rad/s
+% v: [x,y,z,rx,ry,rz]    x,y,z:m/s    rx,ry,rz:rad/s
 
 if strcmp(obj.s2.status,'closed')   % if s2 is not open then open it
     fopen(obj.s2);

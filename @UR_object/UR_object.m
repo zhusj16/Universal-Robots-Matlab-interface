@@ -11,7 +11,7 @@ classdef UR_object < handle
         v_tool  =  0.05;  % tcp velocity limit
         ip_UR='192.168.1.111'     %default ip/hostname of the robot
         tcp_data;        % tcp information including tcp offset, mass and center of gravity 
-        n_tcp;           % number of active tcp
+        n_tcp = 1;           % number of active tcp
         target_pose;     % target tcp pose
     end
     
@@ -36,8 +36,6 @@ classdef UR_object < handle
            LAN_init(obj,varargin{:});
           % Initialize tcp_data
            tcp_data_init(obj);
-          % Activate the #1 tcp
-           obj.n_tcp = 1;
           % Initialize the target pose
            obj.target_pose = obj.pose;
         end

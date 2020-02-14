@@ -21,7 +21,7 @@ function calib = get_calibration(obj)
     if len ~= length(msg)
 %         aa = msgbox('UR读数错误，将重新读数');
 %         uiwait(aa); 
-        disp('UR读数错误，将重新读数');
+%         disp('UR读数错误，将重新读数');
         calib = obj.get_calibration;
         return;
     end
@@ -31,8 +31,8 @@ function calib = get_calibration(obj)
     ct = 5; %计数器初始化
     calib = zeros(6,1);
     while(ct<len)
-        pkg_len = msg(ct+3)*256+msg(ct+4); %数据包长度
-        pkg_type = msg(ct+5);
+       pkg_len = msg(ct+3)*256+msg(ct+4); %数据包长度
+       pkg_type = msg(ct+5);
        if (pkg_type == 9)
             for i=1:1:6
                 tmp = msg(ct+6+(i-1)*8:ct+13+(i-1)*8);
