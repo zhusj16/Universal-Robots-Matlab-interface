@@ -1,12 +1,19 @@
 function power_on(obj)
-%% UR上电，解除制动
-% obj: UR机器人对象
-% fopen(obj.s1); 
+%% power on the robot and release the brake
+% obj: handle of the UR_object
+
+if strcmp(obj.s1.status,'closed') % if the port is not open, then open it
+    fopen(obj.s1);
+    disp(fscanf(obj.s1));
+end
+
 disp(query(obj.s1,'power on'));     
 pause(4);
 disp(query(obj.s1,'brake release'));  
-% fclose(obj.s1);
 
-obj.set_active_tcp; %TCP设置命令仅在上电后才有效。上电后自动刷新TCP
+
+obj.set_active_tcp; % The TCP setup comments are only available after the 
+                    % robot is power on. So the tcp data should be sent again
+                    % to make sure the previously specified tcp data will take effect 
 
 

@@ -1,12 +1,10 @@
 function power_off(obj)
-%% UR断电
-if strcmp(obj.s2.status,'open') % 断电前关闭s2端口
-    fclose(obj.s2);
+%% power off the robot
+
+if strcmp(obj.s1.status,'closed') % if the port is not open, then open it
+    fopen(obj.s1);
+    disp(fscanf(obj.s1));
 end
 
-if strcmp(obj.s1.status,'closed') % 如果没打开端口，则打开之
-    fopen(obj.s1);
-end
-fprintf(obj.s1,'power off\n'); %发送断电指令
-fclose(obj.s1);
+disp(query(obj.s1,'power off'));  % sent the power off command and receive message from the robot
 
