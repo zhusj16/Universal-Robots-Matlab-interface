@@ -7,7 +7,7 @@ classdef UR_object < handle
     properties
         a_joint =  0.35; % join acceleration limit
         a_tool  =  0.5 ;   % tcp acceleration limit
-        v_joint =  0.15/180*pi;  % join velocity limit
+        v_joint =  5/180*pi;  % join velocity limit
         v_tool  =  0.05;  % tcp velocity limit
         ip_UR='192.168.1.111'     %default ip/hostname of the robot
         tcp_data;        % tcp information including tcp offset, mass and center of gravity 
