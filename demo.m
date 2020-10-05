@@ -1,1 +1,59 @@
-%程序适用于UR5%新买的UR10读数会出现错误%使用方法：%% 初始化h_UR = UR_object; %新建一个UR5的对象,使用默认ip:192.168.1.111%或使用h_UR = UR_object('指定的ip地址');%% 机器人通电与断电h_UR.power_on; %机器人上电h_UR.power_off;%机器人下电%% 设置工具端% example1:用命令修改tcp参数h_UR.tcp_data(1).mass = 1; % example2:指定当前活跃的tcph_UR.n_tcp = 1;% example3:直接在tcp_data_init文件中修改tcp参数% 注1：每次指定n_tcp或者通过命令修改tcp参数后，会自动向机器人发送指令刷新tcp参数% 注2：可以把tcp参数放在等号右边直接读取感兴趣的tcp参数%% 移动机器人% example1:指定机械臂在基坐标系中的位姿current_pose = h_UR.pose; %读取当前机器人再基坐标系中的位姿[x,y,z,rx,ry,rz]',单位为米、弧度;tgt_pose = current_pose + [0,0,0.02,0,0,0]';path_type = 'joint'; %joint:关节空间规划，cart:笛卡尔空间规划% 若指定axis_no_rotate = [1,0,0], 则机器人结束为止与初始位置相比，不沿[1,0,0]方向转动% 若不指定axis_no_rotate,或者axis_no_rotate = [0,0,0],则直接运动到tgt_pose% 若不指定path_type,则默认按照关节空间'joint'规划% h_UR.set_pose(tgt_pose,path_type,axis_no_rotate);h_UR.set_pose(tgt_pose,path_type); % example2:指定机械臂在工具坐标系中的运动量offset = [0,0,0.02,0,0,0]; %工具坐标系中的运动量[x,y,z,rx,ry,rz],单位为米、弧度，采用笛卡尔空间规划;h_UR.move_tcp(offset);% example3:运动过程中暂停与继续h_UR.stop; %暂停机器人的运动h_UR.resume; %恢复机器人的运动。此时机器人会运动到最近一次执行的move_tcp或者set_pose命令所指定的目标位置%h_UR.resume('cart',[0,1,0]);%恢复运动还可以指定规划模式和axis_no_rotate,如果不指定，则默认‘join’规划
+%This demo is for UR5e, tested on V5.4.2
+
+% How to use:
+% Run section by section and see how the robot reacts and 
+% what massages are returned in the command line window.
+
+%% Initialization
+h_UR = UR_object; % create a new UR_object object, 
+                  % which will establish the TCPIP connection with the robot
+                  % the default ip address is 192.168.1.111
+                  
+% if this is IP is not correct, the user should manually specify the IP or hostname as follows:
+% h_UR = UR_object('ip address or hostname of the robot');
+
+%% power control of the robot
+h_UR.power_on; % power on the robot
+% h_UR.power_off; % power off the robot
+
+%% Configure the TCP parameters
+
+% example1: specify the TCP parameters
+h_UR.tcp_data(1).mass = 0;                  % mass of the payload
+h_UR.tcp_data(1).CoG  = [0,0,0];            % center of gravity of the payload
+h_UR.tcp_data(1).pose = [0,0,0,0,0,0];      % pose of the tcp coordinate frame
+h_UR.tcp_data(1).str = 'user defined tcp';  % name the defined tcp parameters 
+                                            % You can define several set of different tcp parameters with h_UR.tcp_data(i).xx = xx
+
+% example2: activate the specified tcp configuration
+h_UR.n_tcp = 1;
+% example3:
+% you can also defined the default tcp data in "tcp_data_init.m"
+% every time the UR_object is created, tcp_data(1) defined in "tcp_data_init.m" will be uploaded to the robot
+% every time you assign a new value to the tcp_data, it will also be immediately uploaded to the robot automatically.
+
+%% move the robot
+%% example1: Assign a desired pose in the robot base coordinate system.
+current_pose = h_UR.pose; % read current pose of the robot, which is defined in the robot base coordinate system, 
+                          % formatted as [x,y,z,rx,ry,rz]' by meter and radius;
+tgt_pose = current_pose + [0,0,0.02,0,0,0]';  % offset the current pose
+path_type = 'joint'; % joint: generate the path in the joint space
+                     % cart:  generate the path in the cartesian space
+                     % if path_type is not specifed, 'joint' will be used.
+h_UR.set_pose(tgt_pose,path_type); % move the robot to the target pose
+
+%% example2: Assign a movement in the tcp coordinate frame
+offset = [0,0,0.02,0,0,0]; % pose transformation in tcp coordinate frame, formatted as [x,y,z,rx,ry,rz], by meter and radius
+                           % the path is generate in Cartesian space
+h_UR.move_tcp(offset);     % move the robot according to the specified tcp offset.
+
+%% example3: pause and resume
+h_UR.stop;   % you can stop the robot from moving whenever you want with this command
+h_UR.resume; % the robot will continue moving to the pose most resently specifed move_tcp/set_pose 
+
+%% example4: freedrive mode
+h_UR.freedrive_on;   % activate the freedrive mode
+disp(h_UR.freedrive_status);  % query the freedrive status: 1-freedrive on 0-freedrive off
+h_UR.freedrive_off;  % disable the freedrive mode
+
+
