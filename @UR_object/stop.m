@@ -1,6 +1,6 @@
 function cmd = stop(obj)
-%% 停止当前的机器人运动 
-if strcmp(obj.s2.status,'closed')   %如果没打开端口，则打开之
+%% stop the robot movement 
+if strcmp(obj.s2.status,'closed')   %open the port in case it is closed
     fopen(obj.s2);
 end
 

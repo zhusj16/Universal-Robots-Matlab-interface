@@ -1,28 +1,24 @@
 function set_active_tcp(obj)
-% --- 设置tcp位置，重心位置，载荷质量等参数  
-% n_tcp是所选tcp_data的编号
+% Send the tcp configuration to the robot  
+% n_tcp: the selected configuration number
 
-% 查阅scriptManual 3.4.5得到如下指令可用：
-% 1. set_payload(CoG) 设置负载质心位置[x,y,z] 单位：米
-% 2. set_payload_mass(m) 设置负载质量，单位：千克
-% 3. set_tcp（pose） 设置tcp 坐标系, 格式是UR语言里面专用的pose类型
+% must use port 30002, a small delay is needed for the robot to take the commands. 
+% warning: if you use the teach pendant to set the tcp data and also set
+% the data throug remote pc at the same time, the result is undetermined.
 
-%注意，必须要用30002端口，命令发送完之后必须要延时，否则会影响命令执行！
-%设置完tcp之后，只要不在示教器上进入tcp配置页面重新刷一下，在示教器中进行移动操作时依然按照程序最后发送的tcp配置来执行！
-
-% 从UR对象的tcp_data属性中读取tcp参数
+% read the active tcp configuration from the UR_object.
 tcp_data = obj.active_tcp;
 
-if strcmp(obj.s2.status,'closed')
+if strcmp(obj.s2.status,'closed') % if the port is not open, then open it
     fopen(obj.s2);
 end
 
-% 设置负载质量和重心位置
+% set the mass and center of gravity of the payload
 cmd1 = sprintf('set_payload(%f,[%f,%f,%f])\n',tcp_data.mass,tcp_data.CoG);
 fprintf(obj.s2,cmd1);
 pause(0.02);
 
-% 设置工具坐标系位置
+% set the tcp coordinate system
 cmd2 = sprintf('set_tcp(p[%f,%f,%f,%f,%f,%f])\n',tcp_data.pose);
 fprintf(obj.s2,cmd2);
 pause(0.02);

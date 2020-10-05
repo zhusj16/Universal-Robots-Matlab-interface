@@ -1,8 +1,8 @@
 function cmd = set_speed(obj,varargin)
-% servo_cart，在机器人基坐标系中以给定速度V运动
-% v: [x,y,z,rx,ry,rz],xyz单位为m/s，rx,ry,rz单位为rad/s
+%% move the robot with specified speed in robot base coordinate system.
+% v: the speed vector formatted as [vx,vy,vz,rx,ry,rz],v: m/s, r: rad/s
 
-if strcmp(obj.s2.status,'closed')   %如果没打开端口，则打开之
+if strcmp(obj.s2.status,'closed')   % if the port is not open, then open it
     fopen(obj.s2);
 end
 

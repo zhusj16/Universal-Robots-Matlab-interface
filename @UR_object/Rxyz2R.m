@@ -1,5 +1,5 @@
 function R = Rxyz2R(obj,Rxyz)
-% 把Rxyz = [rx,ry,rz]'转换成旋转矩阵;
+% convert the rotation vector Rxyz to the rotation matrix R
 phi = norm(Rxyz);
 if (phi == 0)
     e = [1,0,0]';

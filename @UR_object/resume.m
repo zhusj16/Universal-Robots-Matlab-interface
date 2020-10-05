@@ -1,3 +1,4 @@
-function resume(obj,varargin)% 恢复被暂停的运动      
+function resume(obj,varargin)
+%% resume the stopped robot movement      
     obj.set_pose(obj.target_pose,varargin{:});
 end
