@@ -2,10 +2,10 @@ function  tcp_data_init(obj)
 %% predifined tool center point configurations
 
 % 
-% 1. set_payload(CoG) ÉèÖÃ¸ºÔØÖÊĞÄÎ»ÖÃ[x,y,z] µ¥Î»£ºÃ×
-% 2. set_payload_mass(m) ÉèÖÃ¸ºÔØÖÊÁ¿£¬µ¥Î»£ºÇ§¿Ë
-% 3. set_tcp£¨pose£© ÉèÖÃtcp ×ø±êÏµ, ¸ñÊ½ÊÇURÓïÑÔÀïÃæ×¨ÓÃµÄposeÀàĞÍ
-% tcp_data´¢´æÁËÖÊÁ¿mass,ÖÊĞÄÎ»ÖÃCoG,tcp×ø±êĞÅÏ¢pose,ÒÔ¼°×êÍ·Ö±¾¶
+% 1. set_payload(CoG) è®¾ç½®è´Ÿè½½è´¨å¿ƒä½ç½®[x,y,z] å•ä½ï¼šç±³
+% 2. set_payload_mass(m) è®¾ç½®è´Ÿè½½è´¨é‡ï¼Œå•ä½ï¼šåƒå…‹
+% 3. set_tcpï¼ˆposeï¼‰ è®¾ç½®tcp åæ ‡ç³», æ ¼å¼æ˜¯URè¯­è¨€é‡Œé¢ä¸“ç”¨çš„poseç±»å‹
+% tcp_dataå‚¨å­˜äº†è´¨é‡mass,è´¨å¿ƒä½ç½®CoG,tcpåæ ‡ä¿¡æ¯pose,ä»¥åŠé’»å¤´ç›´å¾„
 
 %% TCP datas. You can replace the values as you like 
 % These data will sent to the robot when you power on the robot, and will
@@ -33,5 +33,5 @@ tcp_data(2).pose = [0,0,0,0,0,0];
 tcp_data(2).str = '<2> user defined tcp';
 
 
-%% tcp²ÎÊıĞ´ÈëUR¶ÔÏó
+%% tcpå‚æ•°å†™å…¥URå¯¹è±¡
 obj.tcp_data = tcp_data;

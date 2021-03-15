@@ -1,37 +1,37 @@
 function calib = get_calibration(obj)
-    %% ´Ó30002¶Ë¿Ú¶ÁÈ¡UR»úÆ÷ÈËµÄ¸÷ÖÖĞÅÏ¢
-    %% ÀûÓÃreadasyncÃüÁî¶ÁÈ¡Ô­Ê¼µÄ¶ş½øÖÆ×´Ì¬ĞÅÏ¢
+    %% ä»30002ç«¯å£è¯»å–URæœºå™¨äººçš„å„ç§ä¿¡æ¯
+    %% åˆ©ç”¨readasyncå‘½ä»¤è¯»å–åŸå§‹çš„äºŒè¿›åˆ¶çŠ¶æ€ä¿¡æ¯
     
 % pose = [0,0,0,0,0,0]';    
-    if strcmp(obj.s3.status,'closed')  %Èç¹ûÃ»´ò¿ª¶Ë¿Ú£¬Ôò´ò¿ªÖ®
+    if strcmp(obj.s3.status,'closed')  %å¦‚æœæ²¡æ‰“å¼€ç«¯å£ï¼Œåˆ™æ‰“å¼€ä¹‹
         fopen(obj.s3);
         pause(0.1);
     end
     readasync(obj.s3);
     msg = fread(obj.s3);
     if  size(msg,1)<4
-%         aa = msgbox('URÁ¬½Ó´íÎó,½«ÖØĞÂÁ¬½Ó');
+%         aa = msgbox('URè¿æ¥é”™è¯¯,å°†é‡æ–°è¿æ¥');
 %         uiwait(aa);
-        disp('URÁ¬½Ó´íÎó,½«ÖØĞÂÁ¬½Ó');
+        disp('URè¿æ¥é”™è¯¯,å°†é‡æ–°è¿æ¥');
         fclose(obj.s3);
-        calib = obj.get_calibration;  %·µ»ØÖµÖ®Ç°Òª¸øpose¸³Öµ£¬²»È»²»»á·µ»Ø¸ø³ÉÔ±ÊôĞÔ
+        calib = obj.get_calibration;  %è¿”å›å€¼ä¹‹å‰è¦ç»™poseèµ‹å€¼ï¼Œä¸ç„¶ä¸ä¼šè¿”å›ç»™æˆå‘˜å±æ€§
         return;
     end
     len = msg(3)*256+msg(4);
     if len ~= length(msg)
-%         aa = msgbox('UR¶ÁÊı´íÎó£¬½«ÖØĞÂ¶ÁÊı');
+%         aa = msgbox('URè¯»æ•°é”™è¯¯ï¼Œå°†é‡æ–°è¯»æ•°');
 %         uiwait(aa); 
-%         disp('UR¶ÁÊı´íÎó£¬½«ÖØĞÂ¶ÁÊı');
+%         disp('URè¯»æ•°é”™è¯¯ï¼Œå°†é‡æ–°è¯»æ•°');
         calib = obj.get_calibration;
         return;
     end
 
-    %% ´ÓÔ­Ê¼¶ş½øÖÆ×´Ì¬ĞÅÏ¢ÖĞÌáÈ¡¸ĞĞËÈ¤µÄĞÅÏ¢
-    % ÕâÀï½öÌáÈ¡"joint data"(type1)ºÍ"Cartesion Info"(type4)
-    ct = 5; %¼ÆÊıÆ÷³õÊ¼»¯
+    %% ä»åŸå§‹äºŒè¿›åˆ¶çŠ¶æ€ä¿¡æ¯ä¸­æå–æ„Ÿå…´è¶£çš„ä¿¡æ¯
+    % è¿™é‡Œä»…æå–"joint data"(type1)å’Œ"Cartesion Info"(type4)
+    ct = 5; %è®¡æ•°å™¨åˆå§‹åŒ–
     calib = zeros(6,1);
     while(ct<len)
-       pkg_len = msg(ct+3)*256+msg(ct+4); %Êı¾İ°ü³¤¶È
+       pkg_len = msg(ct+3)*256+msg(ct+4); %æ•°æ®åŒ…é•¿åº¦
        pkg_type = msg(ct+5);
        if (pkg_type == 9)
             for i=1:1:6

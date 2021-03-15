@@ -1,8 +1,8 @@
 function power_on(obj)
-%% ³õÊ¼»¯»úÆ÷ÈËµÄÍøÂçÁ¬½Ó²ÎÊý
-% obj: UR»úÆ÷ÈË¶ÔÏó
+%% åˆå§‹åŒ–æœºå™¨äººçš„ç½‘ç»œè¿žæŽ¥å‚æ•°
+% obj: URæœºå™¨äººå¯¹è±¡
 
-%% ÉÏµç£¬½â³ýÖÆ¶¯
+%% ä¸Šç”µï¼Œè§£é™¤åˆ¶åŠ¨
 fopen(obj.s1); 
 fprintf(obj.s1,'power on\n');     
 pause(4);

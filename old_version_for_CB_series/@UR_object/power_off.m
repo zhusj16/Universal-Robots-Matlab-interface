@@ -1,12 +1,12 @@
 function power_off(obj)
-%% UR¶Ïµç
-if strcmp(obj.s2.status,'open') % ¶ÏµçÇ°¹Ø±Õs2¶Ë¿Ú
+%% URæ–­ç”µ
+if strcmp(obj.s2.status,'open') % æ–­ç”µå‰å…³é—­s2ç«¯å£
     fclose(obj.s2);
 end
 
-if strcmp(obj.s1.status,'closed') % Èç¹ûÃ»´ò¿ª¶Ë¿Ú£¬Ôò´ò¿ªÖ®
+if strcmp(obj.s1.status,'closed') % å¦‚æœæ²¡æ‰“å¼€ç«¯å£ï¼Œåˆ™æ‰“å¼€ä¹‹
     fopen(obj.s1);
 end
-fprintf(obj.s1,'power off\n'); %·¢ËÍ¶ÏµçÖ¸Áî
+fprintf(obj.s1,'power off\n'); %å‘é€æ–­ç”µæŒ‡ä»¤
 fclose(obj.s1);
 

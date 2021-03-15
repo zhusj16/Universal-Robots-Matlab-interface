@@ -1,34 +1,34 @@
 function set_pose(obj,tgt_pose,path_type,axis_no_rotate)
-%%   SET_pose ÒÔÖ¸¶¨·½Ê½ÒÆ¶¯µ½Ö¸¶¨Î»ÖÃ
-%   tgt_pose: UR¹¤¾ß¶ËÔÚ»ù×ø±êÏµÖĞµÄÄ¿±êÎ»ÖÃ [x,y,z,ax,ay,az]  µ¥Î»Ã×!!!½Ç¶ÈÊÇ»¡¶È!!!               
-%   path_type :'cart' µÑ¿¨¶û¿Õ¼äÏßĞÔ²åÖµ
-%              'joint'¹Ø½Ú¿Õ¼äÏßĞÔ²åÖµ
-%   axis_no_rotate : ¹¤¾ßµÄÖáÏß·½Ïò£¨tcp×ø±êÏµÖĞ£©£¬ÈôÖ¸¶¨ÁË¸Ã·½Ïò£¬ÔòÔË¶¯¹ı³ÌÖĞ²»ÈÆ¸ÃÖáĞı×ª
+%%   SET_pose ä»¥æŒ‡å®šæ–¹å¼ç§»åŠ¨åˆ°æŒ‡å®šä½ç½®
+%   tgt_pose: URå·¥å…·ç«¯åœ¨åŸºåæ ‡ç³»ä¸­çš„ç›®æ ‡ä½ç½® [x,y,z,ax,ay,az]  å•ä½ç±³!!!è§’åº¦æ˜¯å¼§åº¦!!!               
+%   path_type :'cart' ç¬›å¡å°”ç©ºé—´çº¿æ€§æ’å€¼
+%              'joint'å…³èŠ‚ç©ºé—´çº¿æ€§æ’å€¼
+%   axis_no_rotate : å·¥å…·çš„è½´çº¿æ–¹å‘ï¼ˆtcpåæ ‡ç³»ä¸­ï¼‰ï¼Œè‹¥æŒ‡å®šäº†è¯¥æ–¹å‘ï¼Œåˆ™è¿åŠ¨è¿‡ç¨‹ä¸­ä¸ç»•è¯¥è½´æ—‹è½¬
 
-obj.target_pose = tgt_pose; %¸úĞÂUR¶ÔÏóµÄÄ¿±êÎ»ÖÃÊôĞÔ
+obj.target_pose = tgt_pose; %è·Ÿæ–°URå¯¹è±¡çš„ç›®æ ‡ä½ç½®å±æ€§
 
 if  (nargin==4) && (norm(axis_no_rotate)>0)
-    axis_no_rotate = axis_no_rotate(:); %ÏÈ×ª³ÉÁĞÏòÁ¿
-    R_mez = Rxyz2R(obj.pose(4:6)); %µ±Ç°µÄ×ËÌ¬¾ØÕó
-    R_tgt = Rxyz2R(tgt_pose(4:6)); %ÆÚÍûµÄ×ËÌ¬¾ØÕó
-    n_mez = R_mez*axis_no_rotate; %ÖáÏß·½ÏòÔÚ»ù×ø±êÏµÖĞµÄµ±Ç°Î»ÖÃ
-    n_tgt = R_tgt*axis_no_rotate; %ÖáÏß·½ÏòÔÚ»ù×ø±êÏµÖĞµÄÆÚÍûÎ»ÖÃ
+    axis_no_rotate = axis_no_rotate(:); %å…ˆè½¬æˆåˆ—å‘é‡
+    R_mez = Rxyz2R(obj.pose(4:6)); %å½“å‰çš„å§¿æ€çŸ©é˜µ
+    R_tgt = Rxyz2R(tgt_pose(4:6)); %æœŸæœ›çš„å§¿æ€çŸ©é˜µ
+    n_mez = R_mez*axis_no_rotate; %è½´çº¿æ–¹å‘åœ¨åŸºåæ ‡ç³»ä¸­çš„å½“å‰ä½ç½®
+    n_tgt = R_tgt*axis_no_rotate; %è½´çº¿æ–¹å‘åœ¨åŸºåæ ‡ç³»ä¸­çš„æœŸæœ›ä½ç½®
     r_cross = cross(n_mez,n_tgt);
     r_mez2tgt = r_cross/norm(r_cross)*asin(norm(r_cross)); 
-    %Ê¹ÖáÏß×ªµ½ÆÚÍûÎ»ÖÃµÄ×îĞ¡×ª¶¯µÄĞı×ªÊ¸Á¿£¨ÓëÖáÏß´¹Ö±£¬¼´ÑØ¸ÃÖáÏß·½ÏòÃ»ÓĞ×ª¶¯£©
-    tgt_pose(4:6) = R2Rxyz((Rxyz2R(r_mez2tgt)*R_mez)); %¸üĞÂµÄÄ¿±êÎ»×ËĞı×ªÊ¸Á¿
+    %ä½¿è½´çº¿è½¬åˆ°æœŸæœ›ä½ç½®çš„æœ€å°è½¬åŠ¨çš„æ—‹è½¬çŸ¢é‡ï¼ˆä¸è½´çº¿å‚ç›´ï¼Œå³æ²¿è¯¥è½´çº¿æ–¹å‘æ²¡æœ‰è½¬åŠ¨ï¼‰
+    tgt_pose(4:6) = R2Rxyz((Rxyz2R(r_mez2tgt)*R_mez)); %æ›´æ–°çš„ç›®æ ‡ä½å§¿æ—‹è½¬çŸ¢é‡
 end
 
 if nargin==2
     path_type = 'joint';
 end
 
-if strcmp(obj.s2.status,'closed')  %Èç¹ûÃ»´ò¿ª¶Ë¿Ú£¬Ôò´ò¿ªÖ®
+if strcmp(obj.s2.status,'closed')  %å¦‚æœæ²¡æ‰“å¼€ç«¯å£ï¼Œåˆ™æ‰“å¼€ä¹‹
     fopen(obj.s2);
 end
 
 t=0;
-r=0; % movej(q,    a=1.4, v=1.05, t=0, r=0)£¬Ä¬ÈÏt,r=0£¬ÓÅÏÈ¼¶ÔÚaºÍvÖ®Ç° 
+r=0; % movej(q,    a=1.4, v=1.05, t=0, r=0)ï¼Œé»˜è®¤t,r=0ï¼Œä¼˜å…ˆçº§åœ¨aå’Œvä¹‹å‰ 
 
 if  strcmp(path_type,'cart')
     cmd = sprintf('movel(p[%f,%f,%f,%f,%f,%f],%f,%f,%f,%f)\n',...

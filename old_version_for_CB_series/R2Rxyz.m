@@ -1,10 +1,10 @@
 function rxyz = R2Rxyz(R)
-% °ÑÐý×ª¾ØÕóR±ä³ÉÐý×ªÊ¸Á¿Rxyz = [rx,ry,rz]'µÄÐÎÊ½
+% æŠŠæ—‹è½¬çŸ©é˜µRå˜æˆæ—‹è½¬çŸ¢é‡Rxyz = [rx,ry,rz]'çš„å½¢å¼
 % phi = acos((trace(R)-1)/2);
 % E = (R-R')/2/sin(phi);
 % Rxyz = phi*[E(3,2),E(1,3),E(2,1)]';
-% Õâ¸ö·½·¨¶ÔÓÚÐý×ª180¶ÈµÄÇé¿öÀ´ËµÊÇ¸öÆæÒìÎ»ÖÃ
-% ÏµÍ³×Ô´øµÄdcm2rodÒ²ÊÇÆæÒìÎ»ÖÃ£¡£¡£¡µ«ÊÇËûÕâ¸ö´¦Àí²»Ì«¾«È·µÄ
+% è¿™ä¸ªæ–¹æ³•å¯¹äºŽæ—‹è½¬180åº¦çš„æƒ…å†µæ¥è¯´æ˜¯ä¸ªå¥‡å¼‚ä½ç½®
+% ç³»ç»Ÿè‡ªå¸¦çš„dcm2rodä¹Ÿæ˜¯å¥‡å¼‚ä½ç½®ï¼ï¼ï¼ä½†æ˜¯ä»–è¿™ä¸ªå¤„ç†ä¸å¤ªç²¾ç¡®çš„
 
 r1 = real(dcm2rod(R'));
 s = r1/norm(r1);

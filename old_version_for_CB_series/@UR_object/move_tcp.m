@@ -1,20 +1,20 @@
 function move_tcp(obj,offset)
-%% movetcp£¬¸ù¾İÏà¶ÔÓÚ¹¤¾ß×ø±êÏµ½øĞĞÒÆ¶¯
-%  offset: [x,y,z,rx,ry,rz],xyzµ¥Î»ÎªÃ×£¬rx,ry,rzµ¥Î»Îª»¡¶È
+%% movetcpï¼Œæ ¹æ®ç›¸å¯¹äºå·¥å…·åæ ‡ç³»è¿›è¡Œç§»åŠ¨
+%  offset: [x,y,z,rx,ry,rz],xyzå•ä½ä¸ºç±³ï¼Œrx,ry,rzå•ä½ä¸ºå¼§åº¦
 
-% ¼ÆËãĞÂµÄtarget_pose²¢¸üĞÂUR¶ÔÏóµÄ¸ÃÊôĞÔ
-offset = offset(:); % ²»¹ÜÊÇĞĞÏòÁ¿»¹ÊÇÁĞÏòÁ¿¶¼±ä³É°´ÁĞÅÅÁĞ
+% è®¡ç®—æ–°çš„target_poseå¹¶æ›´æ–°URå¯¹è±¡çš„è¯¥å±æ€§
+offset = offset(:); % ä¸ç®¡æ˜¯è¡Œå‘é‡è¿˜æ˜¯åˆ—å‘é‡éƒ½å˜æˆæŒ‰åˆ—æ’åˆ—
 R = Rxyz2R(obj.pose(4:6));
 R_offset = Rxyz2R(offset(4:6));
 obj.target_pose(1:3) = obj.pose(1:3) + R*offset(1:3);
 obj.target_pose(4:6) = R2Rxyz(R*R_offset);
 
-% ÏòUR·¢ËÍÔË¶¯ÃüÁî
-if strcmp(obj.s2.status,'closed')   %Èç¹ûÃ»´ò¿ª¶Ë¿Ú£¬Ôò´ò¿ªÖ®
+% å‘URå‘é€è¿åŠ¨å‘½ä»¤
+if strcmp(obj.s2.status,'closed')   %å¦‚æœæ²¡æ‰“å¼€ç«¯å£ï¼Œåˆ™æ‰“å¼€ä¹‹
     fopen(obj.s2);
 end
 
-t=0;r=0;%Ä¬ÈÏÖµ 
+t=0;r=0;%é»˜è®¤å€¼ 
 
 cmd = sprintf(...
      'movel(pose_trans(get_target_tcp_pose(),p[%f,%f,%f,%f,%f,%f]),%f,%f,%f,%f)\n'...

@@ -1,6 +1,6 @@
 function stop(obj)
-%% Í£Ö¹µ±Ç°µÄ»úÆ÷ÈËÔË¶¯ 
-if strcmp(obj.s2.status,'closed')   %Èç¹ûÃ»´ò¿ª¶Ë¿Ú£¬Ôò´ò¿ªÖ®
+%% åœæ­¢å½“å‰çš„æœºå™¨äººè¿åŠ¨ 
+if strcmp(obj.s2.status,'closed')   %å¦‚æœæ²¡æ‰“å¼€ç«¯å£ï¼Œåˆ™æ‰“å¼€ä¹‹
     fopen(obj.s2);
 end
 

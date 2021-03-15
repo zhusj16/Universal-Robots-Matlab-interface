@@ -2,7 +2,7 @@ function cmd_out = force_mode_tcp(obj,varargin)
 %% enable force mode
 %   varargin = tare_trigger,DoF,wrench,cmd
 %   arg1: tare_trigger:  1-zero the sensor before start  0-don't zero the sensor before start 
-%   arg2: DoF: 6-by-1 boolean vector, 1-compliant dof£¬0-rigid dof
+%   arg2: DoF: 6-by-1 boolean vector, 1-compliant dof, 0-rigid dof
 %   arg3: wrench: 6-by-1 force/torque vector the tool apply to the
 %         environment. The rigid dofs are automatically ignored.
 %   arg4: cmd_motion: urscript moving commands, generated with moving 

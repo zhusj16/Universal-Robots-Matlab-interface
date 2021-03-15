@@ -1,61 +1,61 @@
 classdef UR_object < handle
     
     properties
-        a_joint =  0.35; %¹Ø½Ú¿Õ¼ä¼ÓËÙ¶ÈÏÞÖÆ
-        a_tool  =  0.1 ; %µÑ¿¨¶û¿Õ¼ä¼ÓËÙ¶ÈÏÞÖÆ
-        v_joint =  2;    %¹Ø½Ú¿Õ¼äËÙ¶ÈÏÞÖÆ
-        v_tool  =  0.03; %µÑ¿¨¶û¿Õ¼äËÙ¶ÈÏÞÖÆ
-        ip_UR='192.168.1.111'     %»úÆ÷ÈËÍø¿ÚÄ¬ÈÏip
-        tcp_data;      %tcpÐÅÏ¢£¬°üÀ¨ÖÊÁ¿ÖÊÐÄtcpÎ»×Ë£¬²»¸ø³õÊ¼»¯Öµ 
-        n_tcp;         % µ±Ç°¼¤»îµÄtcpµÄ±àºÅ
-        target_pose;   %tcpµÄÄ¿±êÎ»×Ë
+        a_joint =  0.35; %å…³èŠ‚ç©ºé—´åŠ é€Ÿåº¦é™åˆ¶
+        a_tool  =  0.1 ; %ç¬›å¡å°”ç©ºé—´åŠ é€Ÿåº¦é™åˆ¶
+        v_joint =  2;    %å…³èŠ‚ç©ºé—´é€Ÿåº¦é™åˆ¶
+        v_tool  =  0.03; %ç¬›å¡å°”ç©ºé—´é€Ÿåº¦é™åˆ¶
+        ip_UR='192.168.1.111'     %æœºå™¨äººç½‘å£é»˜è®¤ip
+        tcp_data;      %tcpä¿¡æ¯ï¼ŒåŒ…æ‹¬è´¨é‡è´¨å¿ƒtcpä½å§¿ï¼Œä¸ç»™åˆå§‹åŒ–å€¼ 
+        n_tcp;         % å½“å‰æ¿€æ´»çš„tcpçš„ç¼–å·
+        target_pose;   %tcpçš„ç›®æ ‡ä½å§¿
     end
     
     properties  (SetAccess = private, GetAccess = public) 
-        s1        %»úÆ÷ÈËÍøÂç¶Ë¿Ú1£¬ÓÃÓÚÉÏµç£¬¶Ïµç£¬½Ó´¥ÖÆ¶¯µÈ
-        s2        %»úÆ÷ÈËÍøÂç¶Ë¿Ú2£¬ÓÃÓÚÊäÈëÔË¶¯ÃüÁî£¬TCPÅäÖÃ²ÎÊýµÈ 
-        pose      %µ±Ç°»úÆ÷ÈË×ËÌ¬
-        active_tcp   %µ±Ç°»î¶¯µÄtcpÅäÖÃ
+        s1        %æœºå™¨äººç½‘ç»œç«¯å£1ï¼Œç”¨äºŽä¸Šç”µï¼Œæ–­ç”µï¼ŒæŽ¥è§¦åˆ¶åŠ¨ç­‰
+        s2        %æœºå™¨äººç½‘ç»œç«¯å£2ï¼Œç”¨äºŽè¾“å…¥è¿åŠ¨å‘½ä»¤ï¼ŒTCPé…ç½®å‚æ•°ç­‰ 
+        pose      %å½“å‰æœºå™¨äººå§¿æ€
+        active_tcp   %å½“å‰æ´»åŠ¨çš„tcpé…ç½®
     end 
    
     methods   
-        function obj = UR_object(varargin)  %¶ÔÏóµÄÉú³Éº¯Êý
-          % ÊäÈëÎªURµÄipµØÖ·£¬ÈôÈ±Ê¡£¬Ôò°´ÕÕÄ¬ÈÏµÄipµØÖ·Ö´ÐÐ
-          % ³õÊ¼»¯LAN²ÎÊý
+        function obj = UR_object(varargin)  %å¯¹è±¡çš„ç”Ÿæˆå‡½æ•°
+          % è¾“å…¥ä¸ºURçš„ipåœ°å€ï¼Œè‹¥ç¼ºçœï¼Œåˆ™æŒ‰ç…§é»˜è®¤çš„ipåœ°å€æ‰§è¡Œ
+          % åˆå§‹åŒ–LANå‚æ•°
            LAN_init(obj,varargin{:});
-          % ³õÊ¼»¯tcp_data
+          % åˆå§‹åŒ–tcp_data
            tcp_data_init(obj);
-          % Ä¬ÈÏ¼¤»î1ºÅtcp_data
+          % é»˜è®¤æ¿€æ´»1å·tcp_data
            obj.n_tcp = 1;
-          % ³õÊ¼»¯target_pose
+          % åˆå§‹åŒ–target_pose
            obj.target_pose = obj.pose;
         end
 
-        LAN_init(obj,varargin);  %³õÊ¼»¯ÍøÂç¶Ë¿Ú²ÎÊý
+        LAN_init(obj,varargin);  %åˆå§‹åŒ–ç½‘ç»œç«¯å£å‚æ•°
 
-        tcp_data_init(obj);  %ÔØÈëÄ¬ÈÏµÄtcp²ÎÊý
+        tcp_data_init(obj);  %è½½å…¥é»˜è®¤çš„tcpå‚æ•°
 
-        set_active_tcp(obj); % ¼¤»îÑ¡¶¨µÄtcpÉèÖÃ
+        set_active_tcp(obj); % æ¿€æ´»é€‰å®šçš„tcpè®¾ç½®
 
-        power_on(obj);  %UR³õÊ¼»¯£¬ÉÏµç
+        power_on(obj);  %URåˆå§‹åŒ–ï¼Œä¸Šç”µ
 
-        power_off(obj);   %UR¶Ïµç
+        power_off(obj);   %URæ–­ç”µ
 
-        pose = refresh_pose(obj);  %¸üÐÂURÎ»ÖÃÐÅÏ¢
+        pose = refresh_pose(obj);  %æ›´æ–°URä½ç½®ä¿¡æ¯
 
-        move_tcp(obj,offset) %Ïà¶ÔÓÚ¹¤¾ß×ø±êÏµ½øÐÐÒÆ¶¯
+        move_tcp(obj,offset) %ç›¸å¯¹äºŽå·¥å…·åæ ‡ç³»è¿›è¡Œç§»åŠ¨
 
-        set_pose(obj,tgt_pose,path_type,axis_no_rotate); %ÒÆ¶¯µ½»ù×ø±êÏµÖÐµÄÖ¸¶¨Î»ÖÃ£¨µÑ¿¨¶û¿Õ¼ä»òÕß¹Ø½Ú¿Õ¼ä²åÖµ£©
+        set_pose(obj,tgt_pose,path_type,axis_no_rotate); %ç§»åŠ¨åˆ°åŸºåæ ‡ç³»ä¸­çš„æŒ‡å®šä½ç½®ï¼ˆç¬›å¡å°”ç©ºé—´æˆ–è€…å…³èŠ‚ç©ºé—´æ’å€¼ï¼‰
 
-        stop(obj); %Í£Ö¹µ±Ç°µÄURÔË¶¯
+        stop(obj); %åœæ­¢å½“å‰çš„URè¿åŠ¨
 
-        function resume(obj,varargin)% »Ö¸´±»ÔÝÍ£µÄÔË¶¯      
+        function resume(obj,varargin)% æ¢å¤è¢«æš‚åœçš„è¿åŠ¨      
             obj.set_pose(obj.target_pose,varargin{:});
         end
     end
    
-    methods  % setºÍgetÏà¹Ø
-        function pose = get.pose(obj)   %µ±²éÑ¯statusÊôÐÔÊ±,ÔËÐÐ×ø±êË¢ÐÂº¯Êý¶ÁÈ¡ÐÂµÄstatus
+    methods  % setå’Œgetç›¸å…³
+        function pose = get.pose(obj)   %å½“æŸ¥è¯¢statuså±žæ€§æ—¶,è¿è¡Œåæ ‡åˆ·æ–°å‡½æ•°è¯»å–æ–°çš„status
            pose = obj.refresh_pose;
         end
 
@@ -68,7 +68,7 @@ classdef UR_object < handle
            active_tcp = obj.tcp_data(obj.n_tcp);
         end
         
-        function set.tcp_data(obj,tcp_data) %Ã¿´ÎÖØÉètcpÊý¾ÝÊ±Ë¢ÐÂURµÄtcpÉèÖÃ
+        function set.tcp_data(obj,tcp_data) %æ¯æ¬¡é‡è®¾tcpæ•°æ®æ—¶åˆ·æ–°URçš„tcpè®¾ç½®
            obj.tcp_data = tcp_data;
            set_active_tcp(obj);
         end

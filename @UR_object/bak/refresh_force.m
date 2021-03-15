@@ -1,9 +1,9 @@
 function force = refresh_force(obj)
-    %% ´Ó30002¶Ë¿Ú¶ÁÈ¡UR»úÆ÷ÈËµÄ¸÷ÖÖĞÅÏ¢
-    %% ÀûÓÃreadasyncÃüÁî¶ÁÈ¡Ô­Ê¼µÄ¶ş½øÖÆ×´Ì¬ĞÅÏ¢
+    %% ä»30002ç«¯å£è¯»å–URæœºå™¨äººçš„å„ç§ä¿¡æ¯
+    %% åˆ©ç”¨readasyncå‘½ä»¤è¯»å–åŸå§‹çš„äºŒè¿›åˆ¶çŠ¶æ€ä¿¡æ¯
     
 % pose = [0,0,0,0,0,0]';    
-    if strcmp(obj.s2.status,'closed')  %Èç¹ûÃ»´ò¿ª¶Ë¿Ú£¬Ôò´ò¿ªÖ®
+    if strcmp(obj.s2.status,'closed')  %å¦‚æœæ²¡æ‰“å¼€ç«¯å£ï¼Œåˆ™æ‰“å¼€ä¹‹
         fopen(obj.s2);
         pause(0.1);
     end
@@ -11,26 +11,26 @@ function force = refresh_force(obj)
     msg = fread(obj.s2);
       
     if  size(msg,1)<4
-%         aa = msgbox('URÁ¬½Ó´íÎó,½«ÖØĞÂÁ¬½Ó');
+%         aa = msgbox('URè¿æ¥é”™è¯¯,å°†é‡æ–°è¿æ¥');
 %         uiwait(aa);
-        disp('URÁ¬½Ó´íÎó,½«ÖØĞÂÁ¬½Ó');
+        disp('URè¿æ¥é”™è¯¯,å°†é‡æ–°è¿æ¥');
         fclose(obj.s2);
-        force = obj.force;  %·µ»ØÖµÖ®Ç°Òª¸øpose¸³Öµ£¬²»È»²»»á·µ»Ø¸ø³ÉÔ±ÊôĞÔ
+        force = obj.force;  %è¿”å›å€¼ä¹‹å‰è¦ç»™poseèµ‹å€¼ï¼Œä¸ç„¶ä¸ä¼šè¿”å›ç»™æˆå‘˜å±æ€§
         return;
     end
     len = msg(3)*256+msg(4);
     if len ~= length(msg)
-%         aa = msgbox('UR¶ÁÊı´íÎó£¬½«ÖØĞÂ¶ÁÊı');
+%         aa = msgbox('URè¯»æ•°é”™è¯¯ï¼Œå°†é‡æ–°è¯»æ•°');
 %         uiwait(aa);
-        disp('UR¶ÁÊı´íÎó£¬½«ÖØĞÂ¶ÁÊı');
+        disp('URè¯»æ•°é”™è¯¯ï¼Œå°†é‡æ–°è¯»æ•°');
         force = obj.force;
         return;
     end
 % 
 
-    %% ´ÓÔ­Ê¼¶ş½øÖÆ×´Ì¬ĞÅÏ¢ÖĞÌáÈ¡¸ĞĞËÈ¤µÄĞÅÏ¢
+    %% ä»åŸå§‹äºŒè¿›åˆ¶çŠ¶æ€ä¿¡æ¯ä¸­æå–æ„Ÿå…´è¶£çš„ä¿¡æ¯
     force = zeros(6,1);
-    if obj.s2.InputBufferSize == 1116           %1116ËµÃ÷ÊÇ30003ÊµÊ±¶Ë¿Ú
+    if obj.s2.InputBufferSize == 1116           %1116è¯´æ˜æ˜¯30003å®æ—¶ç«¯å£
         for i=1:1:6
             tmp = msg(541+(i-1)*8:540+i*8);
     %         tmp = msg(445+(i-1)*8:444+i*8);
@@ -39,9 +39,9 @@ function force = refresh_force(obj)
             force(i) = hex2num(tmp);
         end
     else
-        ct = 5; %¼ÆÊıÆ÷³õÊ¼»¯
+        ct = 5; %è®¡æ•°å™¨åˆå§‹åŒ–
         while(ct<len)
-            pkg_len = msg(ct+3)*256+msg(ct+4); %Êı¾İ°ü³¤¶È
+            pkg_len = msg(ct+3)*256+msg(ct+4); %æ•°æ®åŒ…é•¿åº¦
             pkg_type = msg(ct+5);
            if (pkg_type == 9)
                 for i=1:1:6
