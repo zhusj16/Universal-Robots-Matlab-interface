@@ -17,7 +17,7 @@ function [pose,q,force] = refresh_status(obj)
         return;
     end
     len = msg(3)*256+msg(4);
-    if len ~= length(msg)
+    if (len ~= 1140) && (len ~= 1116) && (len ~= 1108) && (len ~= 1220) && (len ~= 1060)
         warning('s2 data error, rereading');
         [pose,q,force] = refresh_status(obj);  
         return;
@@ -28,32 +28,30 @@ function [pose,q,force] = refresh_status(obj)
     q = NaN(6,1);
     force = NaN(6,1);
     
-    if obj.s2.InputBufferSize == 1116
-        % read tcp pose
-        for i=1:1:6
-            tmp = msg(445+(i-1)*8:444+i*8);
-            tmp = dec2hex(tmp)';
-            tmp = strcat(tmp(:)');
-            pose(i) = hex2num(tmp);
-        end  
-        
-        % read joint positions
-        for i=1:1:6
-            tmp = msg(253+(i-1)*8:252+i*8);
-            tmp = dec2hex(tmp)';
-            tmp = strcat(tmp(:)');
-            q(i) = hex2num(tmp);
-        end  
-        
-        % read tcp force
-        for i=1:1:6
-            tmp = msg(541+(i-1)*8:540+i*8);
-            tmp = dec2hex(tmp)';
-            tmp = strcat(tmp(:)');
-            force(i) = hex2num(tmp);
-        end
-    else
-        [pose,q,force] = refresh_status(obj);
+    % read tcp pose
+    for i=1:1:6
+        tmp = msg(445+(i-1)*8:444+i*8);
+        tmp = dec2hex(tmp)';
+        tmp = strcat(tmp(:)');
+        pose(i) = hex2num(tmp);
+    end  
+
+    % read joint positions
+    for i=1:1:6
+        tmp = msg(253+(i-1)*8:252+i*8);
+        tmp = dec2hex(tmp)';
+        tmp = strcat(tmp(:)');
+        q(i) = hex2num(tmp);
+    end  
+
+    % read tcp force
+    for i=1:1:6
+        tmp = msg(541+(i-1)*8:540+i*8);
+        tmp = dec2hex(tmp)';
+        tmp = strcat(tmp(:)');
+        force(i) = hex2num(tmp);
     end
+
+end
 
    

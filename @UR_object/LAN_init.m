@@ -13,13 +13,13 @@ obj.s1 = tcpip(obj.ip_UR,rport1);
 obj.s2 = tcpip(obj.ip_UR,rport2);
 obj.s2.ReadAsyncMode = 'manual';
 obj.s2.Timeout = 0.0001;
-obj.s2.InputBufferSize = 1116;
+obj.s2.InputBufferSize = 588;
 obj.s2.OutputBufferSize = 1024;
 
 obj.s3 = tcpip(obj.ip_UR,rport3);
 obj.s3.ReadAsyncMode = 'manual';
 obj.s3.Timeout = 0.0001;
-obj.s3.InputBufferSize = 716;  %package size for e-series 5.4/5.5
+obj.s3.InputBufferSize = 636;
 
 fopen(obj.s1); disp(fscanf(obj.s1));
 fopen(obj.s2);

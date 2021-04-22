@@ -17,7 +17,8 @@ function freedrive_status = refresh_freedrive_status(obj)
         return;
     end
     len = msg(3)*256+msg(4);
-    if len ~= length(msg)
+    if (len ~= 706) && (len ~= 716) && (len ~= 714) && (len ~= 715) && ...
+            (len ~= 679) && (len ~= 682) && (len ~= 681) && (len ~= 680) && (len ~= 636)
         warning('s3 data error, rereading');
         freedrive_status = obj.freedrive_status;
         return;
