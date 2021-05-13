@@ -14,7 +14,7 @@ else
     a = obj.a_tool;
 end
 
-t=100;
+t=1;
   
 cmd_ = sprintf(...
      ' speedl(wrench_trans(p[0,0,0,pose[3],pose[4],pose[5]],[%f,%f,%f,%f,%f,%f]),%f,%f)\n'...
@@ -29,11 +29,8 @@ cmd = sprintf(cmd);
 if nargout==0
     fprintf(obj.s2,cmd);
 else
-    % this is for force mode
-    cmd =            'def speed_tcp():\n';
-    cmd = strcat(cmd,'\t\t pose = get_target_tcp_pose()\n');
-    cmd = strcat(cmd,'\t\t',cmd_,'\n');
-    cmd = strcat(cmd,'\tend\n');
-    cmd = strcat(cmd,'\tspeed_tcp()');
+    % this is for force mode/move_collision_test
+    cmd = 'pose = get_target_tcp_pose()\n';
+    cmd = [cmd,cmd_,'\n'];
     cmd = sprintf(cmd);
 end
